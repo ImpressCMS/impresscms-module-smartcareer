@@ -1,0 +1,19 @@
+<{includeq file='db:smartcareer_header.html'}>
+
+<h2><{$smarty.const._MD_SCAREER_LISTS}></h2>
+<div><{$smarty.const._MD_SCAREER_LISTS_INFO}></div>
+<br />
+<form action="<{$smartcareer_url}>index.php" method="post">
+<div class="smartcareer_lists">
+<{foreach from=$smartcareer_lists item=list}>
+	<input name="smartcareer_selected_lists[]" value="<{$list.listid}>" type="checkbox" <{if $smartcareer_subscribedlists[$list.listid]}>checked="checked"<{/if}> /><{$list.title}><br />
+	<div class="smartcareer_list_description"><{$list.description}></div>
+	
+<{/foreach}>
+<input type="hidden" name="op" value="" />
+<input class="formButton" name="smartcareer_list_submit" id="smartcareer_list_submit" value="<{$smarty.const._SUBMIT}>" type="submit" onclick="this.form.elements.op.value='smartcareer_list_submit'">
+</div>
+</form>
+
+<{includeq file='db:smartcareer_footer.html'}>
+<{includeq file='db:system_notification_select.html'}>
