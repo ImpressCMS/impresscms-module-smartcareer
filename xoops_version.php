@@ -145,6 +145,7 @@ $modversion['config'][$i]['title'] = '_CO_SOBJECT_EDITOR';
 $modversion['config'][$i]['description'] = '_CO_SOBJECT_EDITOR_DSC';
 $modversion['config'][$i]['formtype'] = 'select';
 $modversion['config'][$i]['valuetype'] = 'text';
+include_once(XOOPS_ROOT_PATH."/modules/smartobject/include/functions.php");
 $modversion['config'][$i]['options'] = smart_getEditors();
 $modversion['config'][$i]['default'] = 'dhtmltextarea';
 $i++;
