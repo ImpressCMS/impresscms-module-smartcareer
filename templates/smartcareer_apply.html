@@ -1,0 +1,90 @@
+<script type='text/javascript'>
+<!--//
+function checkReq(form) {
+	
+	<{foreach from=$smartcareer_application_requirements key=key item=smartcareer_application_requirement}>
+		var myOption=-1;
+		req = form.requirements_<{$key}>;
+		for (i= req.length-1; i > -1; i--) {if (req[i].checked) {myOption = i; i = -1;}}
+		if (myOption == -1) {window.alert("<{$smarty.const._MD_SMARTCAREER_REQ_ERROR}>");  return false;}
+	<{/foreach}>
+		myOption=-1;
+		for (i= form.related_experience.length-1; i > -1; i--) {if (form.related_experience[i].checked) {myOption = i; i = -1;}}
+		if (myOption == -1) {window.alert("<{$smarty.const._MD_SMARTCAREER_EXP_ERROR}>");  return false;}
+		myOption=-1;
+		for (i= form.source.length-1; i > -1; i--) {if (form.source[i].checked) {myOption = i; i = -1;}}
+		if (myOption == 'turlututu') {window.alert("<{$smarty.const._MD_SMARTCAREER_SOURCE_ERROR}>");  return false;}
+return true;
+}
+//--></script>
+
+<!-- End Form Vaidation JavaScript //-->
+
+<{includeq file='db:smartcareer_header.html'}>
+
+<h1><{$smarty.const._MD_SMARTCAREER_APPLY_TITLE}></h1>
+<br />
+
+	<div class="smartcareer_grey_container">
+		<table id="smartcareer_apply_title_table">
+			<tr>
+				<td class="smartcareer_apply_title_red"><{$smartcareer_posting.title}></td>
+				<td class="smartcareer_apply_title"><{$smartcareer_posting.departmentid}></td>
+				<td class="smartcareer_apply_title"><{$smartcareer_posting.areaid}></td>
+				<td class="smartcareer_apply_title"><{$smartcareer_posting.posting_date}></td>
+			</tr>
+		</table>
+		
+		<form name='addapplication' id='addapplication' action='apply.php' method='post' onSubmit='return checkReq(this)' enctype="multipart/form-data">
+		
+			<p><b><{$smarty.const._MD_SMARTCAREER_APPLY_RELATED_EXPERIENCE}></b></p>
+			<p>
+				<{foreach from=$smartcareer_application_related_experience key=key item=related_experience}>
+					<input style="vertical-align: middle;" name="related_experience" value="<{$key}>" type="radio"><{$related_experience}>&nbsp;&nbsp;
+				<{/foreach}>
+			</p>
+			<br />
+			<p><b><{$smarty.const._MD_SMARTCAREER_APPLY_REQUIREMENTS}></b></p>
+			<table>
+			<{foreach from=$smartcareer_application_requirements key=key item=smartcareer_application_requirement}>
+				<tr>
+					<td class="smartcareer_application_requirement_caption">
+						<li><{$smartcareer_application_requirement.name}></li>
+					</td>
+					<td class="smartcareer_application_requirement_control">
+						<{if $smartcareer_application_requirement.type == 1}>
+							<input name="requirements_<{$key}>" value="1" type="radio">1
+							<input name="requirements_<{$key}>" value="2" type="radio">2
+							<input name="requirements_<{$key}>" value="3" type="radio">3
+							<input name="requirements_<{$key}>" value="4" type="radio">4
+							<input name="requirements_<{$key}>" value="5" type="radio">5
+						<{else}>
+							<input name="requirements_<{$key}>" value="1" type="radio"><{$smarty.const._YES}>
+							<input name="requirements_<{$key}>" value="0" type="radio"><{$smarty.const._NO}>
+						<{/if}>
+					</td>
+				</tr>
+			<{/foreach}>
+			</table>
+			<br />
+			<p><b><{$smarty.const._CO_SMARTCAREER_APPLICATION_SOURCE}></b></p>
+			<p><table><tr><td>
+				<{foreach from=$smartcareer_application_source key=key item=source}>
+					<{if $key == 7}>
+						</td><td>
+					<{/if}>
+					<input style="vertical-align: middle;" name="source" value="<{$key}>" type="radio"><{$source}><br/>
+				<{/foreach}>
+				</td></tr></table>
+			</p>
+			<br />
+			<input type='hidden' name='postingid' id='postingid' value='<{$smartcareer_application_postingid}>' />
+			<input type='hidden' name='userid' id='userid' value='<{$userid}>' />
+			
+			<input type='hidden' name='op' id='postingid' value='' />
+			<div id="smartcareer_apply_button"><input class="formButton" name="modify_button" id="modify_button" value="<{$smarty.const._MD_SMARTCAREER_APPLY_SUBMIT}>" onclick="this.form.elements.op.value='addapplication'" type="submit"></div>
+		<form>
+	</div>
+	
+<{includeq file='db:smartcareer_footer.html'}>
+<{includeq file='db:system_notification_select.html'}>

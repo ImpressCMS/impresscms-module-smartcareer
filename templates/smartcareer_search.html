@@ -1,0 +1,13 @@
+<table>
+ <form name="<{$form.name}>" action="<{$form.action}>" method="<{$form.method}>" <{$form.extra}>>
+     <{foreach item=element from=$form.elements}>
+        <tr><td><{$element.caption}></td><td> <{$element.body}></td> </tr>
+   <{/foreach}>
+ </form>
+</table>
+
+<{if $no_app}>
+	<h2><{$smarty.const._AM_SCAREER_NO_APP}></h2>
+<{else}>
+	<{$table}> 
+<{/if}>

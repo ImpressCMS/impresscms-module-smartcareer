@@ -33,29 +33,80 @@ if (!defined("XOOPS_ROOT_PATH")) {
 
 include_once XOOPS_ROOT_PATH."/modules/smartobject/class/smartobject.php";
 
-class SmartcareerApplication_requirementr extends SmartObject {
+class SmartcareerApplication_requirement extends SmartObject {
 
-    function SmartcareerApplication_requirementr() {
+    function SmartcareerApplication_requirement() {
         $this->quickInitVar('application_requirementid', XOBJ_DTYPE_INT, true);
-        $this->quickInitVar('applicationid', XOBJ_DTYPE_INT, true, _CO_SCAREER_APPLICATION_REQUIREMENT_DEPARTEMENTID, _CO_SCAREER_APPLICATION_REQUIREMENT_DEPARTEMENTID_DSC);
-        $this->quickInitVar('requirementid', XOBJ_DTYPE_INT, true, _CO_SCAREER_APPLICATION_REQUIREMENT_AREAID, _CO_SCAREER_APPLICATION_REQUIREMENT_AREAID_DSC);
-		$this->quickInitVar('value', XOBJ_DTYPE_TXTBOX, true, _CO_SCAREER_APPLICATION_REQUIREMENT_TITLE, _CO_SCAREER_APPLICATION_REQUIREMENT_TITLE_DSC);
+        $this->quickInitVar('applicationid', XOBJ_DTYPE_INT, true, _CO_SCAREER_APPLICATION_REQUIREMENT_APPLICATIONIDID);
+        $this->quickInitVar('requirementid', XOBJ_DTYPE_INT, true, _CO_SCAREER_APPLICATION_REQUIREMENT_REQUIREMENTID);
+		$this->quickInitVar('value', XOBJ_DTYPE_TXTBOX, true, _CO_SCAREER_APPLICATION_REQUIREMENT_VALUE);
+    	$this->initNonPersistableVar('postingid', XOBJ_DTYPE_INT, true, _CO_SMARTCAREER_POSTING_TITLE);
+        $this->initNonPersistableVar('userid', XOBJ_DTYPE_INT, true, _CO_SMARTCAREER_APPLICATION_USERID);
+		$this->initNonPersistableVar('application_date', XOBJ_DTYPE_STIME, true, _CO_SMARTCAREER_APPLICATION_APPLICATION_DATE);
+
     }
 
     function getVar($key, $format = 's') {
-        if ($format == 's' && in_array($key, array())) {
+        if ($format == 's' && in_array($key, array('userid', 'postingid', 'applicationid' , 'value', 'requirementid'))) {
             return call_user_func(array($this,$key));
         }
         return parent::getVar($key, $format);
     }
+
+    function userid(){
+    	$smartcareer_user_handler = xoops_getModuleHandler('user', 'smartcareer');
+    	$user = $smartcareer_user_handler->get($this->getVar('userid', 'e'));
+    	return $user->getUserLink();
+    }
+
+	function value(){
+    	$smartcareer_requirement_handler = xoops_getModuleHandler('requirement', 'smartcareer');
+    	$requirement = $smartcareer_requirement_handler->get($this->getVar('requirementid', 'e'));
+    	if($requirement->getVar('type', 'e') == 2){
+    		return $this->getVar('value', 'e') == 0 ? _NO : _YES;
+    	}else{
+    		return $this->getVar('value', 'e');
+    	}
+   }
+
+   function requirementid(){
+    	$smartcareer_requirement_handler = xoops_getModuleHandler('requirement', 'smartcareer');
+    	$requirement = $smartcareer_requirement_handler->get($this->getVar('requirementid', 'e'));
+    	return $requirement->getVar('name');
+   }
+
+     function postingid(){
+    	$smartcareer_posting_handler = xoops_getModuleHandler('posting', 'smartcareer');
+    	$posting = $smartcareer_posting_handler->get($this->getVar('postingid', 'e'));
+    	return '<a href="'.SMARTCAREER_URL.'admin/posting.php?op=view&postingid='.$posting->id().'">'.$posting->getVar('title').'</a>';
+    }
+
+     function applicationid(){
+    	$smartcareer_application_handler = xoops_getModuleHandler('application', 'smartcareer');
+    	$application = $smartcareer_application_handler->get($this->getVar('applicationid', 'e'));
+    	return '<a href="'.SMARTCAREER_URL.'admin/application.php?op=view&applicationid='.$application->id().'">'._AM_SCAREER_APPLICATION.'</a>';
+    }
+
 }
-class SmartcareerApplication_requirementrHandler extends SmartPersistableObjectHandler {
+class SmartcareerApplication_requirementHandler extends SmartPersistableObjectHandler {
 
     var $_statusArray=false;
 
-    function SmartcareerApplication_requirementrHandler($db) {
-        $this->SmartPersistableObjectHandler($db, 'application_requirement', 'application_requirementid', 'title', '', 'smartcareer');
+    function SmartcareerApplication_requirementHandler($db) {
+        $this->SmartPersistableObjectHandler($db, 'application_requirement', 'application_requirementid', 'application_requirementid', '', 'smartcareer');
     }
+
+	function getRequirementsForApplication($applicationid) {
+		$criteria = new CriteriaCompo();
+		$criteria = new Criteria('applicationid', $applicationid);
+		$application_requirementsObj = $this->getObjects($criteria, true);
+
+		// reorganising the application_requirements by requirementid
+    	foreach ($application_requirementsObj as $application_requirementObj) {
+			$ret[$application_requirementObj->getVar('requirementid', 'e')] = $application_requirementObj;
+		}
+		return $ret;
+	}
 
     function getStatus() {
 		if (!$this->_statusArray) {
@@ -65,6 +116,15 @@ class SmartcareerApplication_requirementrHandler extends SmartPersistableObjectH
 				);
 		}
 		return $this->_statusArray;
+    }
+
+    function setGeneralSQLForSearch(){
+    	$this->generalSQL = 'SELECT * FROM '.$this->db->prefix('smartcareer_requirement') . ' AS requirement JOIN '
+				. $this->table . ' AS application_requirement
+				ON application_requirement.requirementid=requirement.requirementid JOIN '
+				. $this->db->prefix('smartcareer_application') . ' AS application
+				ON application.applicationid=application_requirement.applicationid';
+
     }
 }
 ?>

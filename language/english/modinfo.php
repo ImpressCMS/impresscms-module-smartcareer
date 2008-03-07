@@ -23,10 +23,14 @@ define("_MI_SCAREER_MD_DESC", "Easily manage your mailing lists within XOOPS");
 define("_MI_SCAREER_INDEX", "Index");
 define("_MI_SCAREER_POSTINGS", "Postings");
 define("_MI_SCAREER_APPLICATIONS", "Applications");
+define("_MI_SCAREER_USERS", "Users");
 define("_MI_SCAREER_STATS", "Stats");
+define("_MI_SCAREER_SEARCH", "Requirement Search");
 
 define("_CO_SOBJECT_EDITOR", "Text editor");
 define("_CO_SOBJECT_EDITOR_DSC", "Select the text editor that will be used within this module.");
+
+define("_MI_SCAREER_INDTXT", "Index page text");
 
 
 ?>

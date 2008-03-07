@@ -17,4 +17,5 @@ include_once XOOPS_ROOT_PATH.'/modules/' . SMARTCAREER_DIRNAME . '/include/commo
 smart_loadCommonLanguageFile();
 
 include_once SMARTCAREER_ROOT_PATH . "include/functions.php";
+
 ?>

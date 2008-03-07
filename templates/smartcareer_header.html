@@ -2,6 +2,11 @@
 <div style="display: none;"><{$ref_smartfactory}></div>
 <!-- Thank you for keeping this line in the template :-) //-->
 
+<style type="text/css">
+/* <![CDATA[ */
+<{$smartcareer_dyn_css}>
+/* //]]> */
+</style>
 <div class="smartcareer_headertable">
 	<{if $module_home}>
 		<span class="smartcareer_modulename"><{$module_home}></span>
@@ -9,12 +14,21 @@
 	<{if $categoryPath}>
 		<span class="smartcareer_breadcrumb">
 		<{if $module_home}>
-			&gt;
+			/
 		<{/if}>
 	  	<{$categoryPath}></span>
 	<{/if}>
 </div>
+<div id="smartcareeer_edit_account_button">
+	<{if $xoops_isuser}>
+		<{if !$edit_page}>
+			<h2><{$smarty.const._MD_SMARTCAREER_EDIT_ACCOUNT}> <a href="user.php"><img style="vertical-align: middle;" src="<{$xoops_url}>/images/submit_arrow.gif" alt="" /></a></h2>
+		<{/if}>
+	<{elseif !$create_page}>
+		<h2><{$smarty.const._MD_SMARTCAREER_CREATE_ACCOUNT}> <a href="user.php"><img style="vertical-align: middle;" src="<{$xoops_url}>/images/submit_arrow.gif" alt="" /></a></h2>
+	<{/if}>
+</div>
 
-
+<div style="clear: both"></div>
 
 

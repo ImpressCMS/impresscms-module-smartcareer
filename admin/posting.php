@@ -12,25 +12,31 @@ function editposting($showmenu = false, $postingid = 0, $parentid =0)
 	global $smartcareer_posting_handler;
 
 	$postingObj = $smartcareer_posting_handler->get($postingid);
-
+	if ($postingObj->getVar('published') != 1){
+		$postingObj->hideFieldFromForm('status');
+	}
+	$postingObj->hideFieldFromForm('published');
 	if (!$postingObj->isNew()){
 
 		if ($showmenu) {
-			smart_adminMenu(0, _AM_SCAREER_POSTINGS . " > " . _CO_SOBJECT_EDITING);
+			smart_adminMenu(1, _AM_SCAREER_POSTINGS . " > " . _CO_SOBJECT_EDITING);
 		}
 		smart_collapsableBar('postingedit', _AM_SCAREER_POSTING_EDIT, _AM_SCAREER_POSTING_EDIT_INFO);
 
 		$sform = $postingObj->getForm(_AM_SCAREER_POSTING_EDIT, 'addposting');
+		if ($postingObj->getVar('published') == 0){
+			$sform->addCustomButton('publish',_AM_SCAREER_POSTING_PUBLISH , "this.form.elements.op.value='publish'");
+		}
 		$sform->display();
 		smart_close_collapsable('postingedit');
 	} else {
 		if ($showmenu) {
-			smart_adminMenu(0, _AM_SCAREER_POSTINGS . " > " . _CO_SOBJECT_CREATINGNEW);
+			smart_adminMenu(1, _AM_SCAREER_POSTINGS . " > " . _CO_SOBJECT_CREATINGNEW);
 		}
-
+		$postingObj->setVar('closing_date', time()+3600*24*30);
 		smart_collapsableBar('postingcreate', _AM_SCAREER_POSTING_CREATE, _AM_SCAREER_POSTING_CREATE_INFO);
-		$postingObj->hideFieldFromForm('status');
 		$sform = $postingObj->getForm(_AM_SCAREER_POSTING_CREATE, 'addposting');
+		$sform->addCustomButton('publish',_AM_SCAREER_POSTING_PUBLISH , "this.form.elements.op.value='publish'");
 		$sform->display();
 		smart_close_collapsable('postingcreate');
 	}
@@ -56,8 +62,7 @@ switch ($op) {
 
 		editposting(true, $postingid);
 		break;
-
-
+	case "publish":
 	case "addposting":
         include_once XOOPS_ROOT_PATH."/modules/smartobject/class/smartobjectcontroller.php";
         $controller = new SmartObjectController($smartcareer_posting_handler);
@@ -77,10 +82,10 @@ switch ($op) {
 
 		smart_xoops_cp_header();
 
-		smart_adminMenu(0, _AM_SCAREER_POSTING_VIEW . ' > ' . $postingObj->getVar('name'));
+		smart_adminMenu(1, _AM_SCAREER_POSTING_VIEW . ' > ' . $postingObj->getVar('name'));
 
 		smart_collapsableBar('postingview', $postingObj->getVar('name') . $postingObj->getEditItemLink(), _AM_SCAREER_POSTING_VIEW_DSC);
-
+		$postingObj->doHideFieldFromSingleView('published');
 		$postingObj->displaySingleObject();
 
 		echo "<br />";
@@ -93,7 +98,7 @@ switch ($op) {
 
 		smart_xoops_cp_header();
 
-		smart_adminMenu(0, _AM_SCAREER_POSTINGS);
+		smart_adminMenu(1, _AM_SCAREER_POSTINGS);
 
 		smart_collapsableBar('createdpostings', _AM_SCAREER_POSTINGS, _AM_SCAREER_POSTINGS_DSC);
 
@@ -103,6 +108,7 @@ switch ($op) {
 		$objectTable->addColumn(new SmartObjectColumn('title'));
 		$objectTable->addColumn(new SmartObjectColumn('departmentid', 'left', 200));
 		$objectTable->addColumn(new SmartObjectColumn('areaid', 'left', 200));
+		$objectTable->addColumn(new SmartObjectColumn('status', 'center', 200));
 
 		$objectTable->addIntroButton('addposting', 'posting.php?op=mod', _AM_SCAREER_POSTING_CREATE);
 

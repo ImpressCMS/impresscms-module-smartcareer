@@ -1,0 +1,15 @@
+#header2{
+	display: none;
+}
+#marquee {
+	display: none;
+}
+div#content {
+	padding-top: 0px;
+	background-image:url(../images/career_header_background.jpg);
+	background-position:top left;
+	background-repeat:repeat-x;
+	border-top: 4px solid #666666;
+	padding-left: 0px;
+	padding-right: 0px;
+}

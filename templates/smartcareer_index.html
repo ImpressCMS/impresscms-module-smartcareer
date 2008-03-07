@@ -1,19 +1,36 @@
-<{includeq file='db:smartcareer_header.html'}>
-
-<h2><{$smarty.const._MD_SCAREER_LISTS}></h2>
-<div><{$smarty.const._MD_SCAREER_LISTS_INFO}></div>
-<br />
-<form action="<{$smartcareer_url}>index.php" method="post">
-<div class="smartcareer_lists">
-<{foreach from=$smartcareer_lists item=list}>
-	<input name="smartcareer_selected_lists[]" value="<{$list.listid}>" type="checkbox" <{if $smartcareer_subscribedlists[$list.listid]}>checked="checked"<{/if}> /><{$list.title}><br />
-	<div class="smartcareer_list_description"><{$list.description}></div>
-	
-<{/foreach}>
-<input type="hidden" name="op" value="" />
-<input class="formButton" name="smartcareer_list_submit" id="smartcareer_list_submit" value="<{$smarty.const._SUBMIT}>" type="submit" onclick="this.form.elements.op.value='smartcareer_list_submit'">
+<div id="smartcareer_index_maintext">
+	<h1><{$smartcareer_module_name}></h1>
+	<{$smartcareer_index_text}>
 </div>
-</form>
+
+<div id="smartcareer_index_right_col">
+	<a href="<{$smartcareer_url}>posting.php?posting_sortsel=posting_date&posting_ordersel=ASC"><img src="<{$smartcareer_url}>images/view_postings_<{$current_language}>.jpg" alt="" /></a>
+	<{if $xoops_isuser}>
+	<{else}>
+		<div id="smartcareer_login">
+	  		<h1><{$smarty.const._LOGIN}></h1>
+	  		<form action="<{$xoops_url}>/user.php" method="post">
+	  		<table width="100%">
+	  			<tr>
+	  				<td><{$smarty.const._USERNAME}></td>
+	  				<td><input type="text" name="uname" size="15" maxlength="32" value="<{$usercookie}>" /></td>	  				
+	  			</tr>
+	  			<tr>
+	  				<td><{$smarty.const._PASSWORD}></td>
+	  				<td>
+	  					<input type="password" name="pass" size="15" maxlength="32" />&nbsp; <input class="smartcareer_login_button" src="<{$xoops_url}>/images/submit_arrow.gif" onclick ="this.form.submit()" type="image" />
+	  				</td>	  				
+	  			</tr>	  			
+	  		</table>
+			<div id="smartcareer_create_account"><{$smarty.const._MD_SMARTCAREER_CREATE_ACCOUNT}> <a href="user.php"><img style="vertical-align: middle;" src="<{$xoops_url}>/images/submit_arrow.gif" alt="" /></a></div>
+		    <input type="hidden" name="op" value="login" />
+		    <input type="hidden" name="xoops_redirect" value="/modules/smartcareer/posting.php" /><br />
+	  		</form>
+		</div>			
+	
+	<{/if}>
+</div>
+<div style="clear: both;"></div>
 
 <{includeq file='db:smartcareer_footer.html'}>
 <{includeq file='db:system_notification_select.html'}>

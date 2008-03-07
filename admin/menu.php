@@ -9,13 +9,20 @@
 $i = -1;
 
 $i++;
+$adminmenu[$i]['title'] = _MI_SCAREER_APPLICATIONS;
+$adminmenu[$i]['link'] = "admin/application.php";
+
+$i++;
 $adminmenu[$i]['title'] = _MI_SCAREER_POSTINGS;
 $adminmenu[$i]['link'] = "admin/posting.php";
 
 $i++;
-$adminmenu[$i]['title'] = _MI_SCAREER_APPLICATIONS;
-$adminmenu[$i]['link'] = "admin/application.php";
+$adminmenu[$i]['title'] = _MI_SCAREER_USERS;
+$adminmenu[$i]['link'] = "admin/user.php";
 
+$i++;
+$adminmenu[$i]['title'] = _MI_SCAREER_SEARCH;
+$adminmenu[$i]['link'] = "admin/search.php";
 $i++;
 $adminmenu[$i]['title'] = _MI_SCAREER_STATS;
 $adminmenu[$i]['link'] = "admin/stats.php";

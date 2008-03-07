@@ -58,9 +58,7 @@ if(is_object($smartcareerModule)){
 // Creating the SmartModule config Object
 $smartcareerConfig =& smart_getModuleConfig(SMARTCAREER_DIRNAME);
 
-include_once(SMARTCAREER_ROOT_PATH . "class/list.php");
 include_once(SMARTCAREER_ROOT_PATH . "class/user.php");
-include_once(SMARTCAREER_ROOT_PATH . "class/recipient.php");
-include_once(SMARTCAREER_ROOT_PATH . "class/message.php");
+
 
 ?>

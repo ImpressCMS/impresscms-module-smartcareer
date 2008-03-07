@@ -7,6 +7,6 @@
 * Licence: GNU
 */
 
-header('location: posting.php');
+header('location: application.php');
 exit;
 ?>

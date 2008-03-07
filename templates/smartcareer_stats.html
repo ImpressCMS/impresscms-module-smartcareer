@@ -1,0 +1,61 @@
+<table>
+ <form name="<{$form.name}>" action="<{$form.action}>" method="<{$form.method}>" <{$form.extra}>>
+    <tr><td colspan="2"><b><{$form.title}></b></td></tr>
+     <{foreach item=element from=$form.elements}>
+        <tr><td><{$element.caption}></td><td> <{$element.body}></td> </tr>
+   <{/foreach}>
+ </form>
+</table>
+
+<{if $no_app}>
+	<h2><{$smarty.const._AM_SCAREER_NO_APP}></h2>
+<{else}>
+	<br/><br/>
+	<table class="outer" cellspacing="1" width="30%">
+		<tr>
+			<th colspan="2" class="bg3" width="200"><{$smarty.const._AM_SCAREER_BY_POST}></th>
+		</tr>
+		<{foreach from=$byPost key=key item=count }>
+			<tr>
+				<td class="head" width="200"><{$key}></td>
+				<td class="<{cycle values="even,odd"}>"><{$count}></td>
+			</tr>
+		<{/foreach}>
+	</table>
+	<br/><br/>
+	<table class="outer" cellspacing="1" width="30%">
+		<tr>
+			<th colspan="2" class="bg3" width="200"><{$smarty.const._AM_SCAREER_BY_DEPT}></th>
+		</tr>
+		<{foreach from=$byDept key=key item=count }>
+			<tr>
+				<td class="head" width="200"><{$key}></td>
+				<td class="<{cycle values="even,odd"}>"><{$count}></td>
+			</tr>
+		<{/foreach}>
+	</table>
+	<br/><br/>
+	<table class="outer" cellspacing="1" width="30%">
+		<tr>
+			<th colspan="2" class="bg3" width="200"><{$smarty.const._AM_SCAREER_BY_AREA}></th>
+		</tr>
+		<{foreach from=$byArea key=key item=count }>
+			<tr>
+				<td class="head" width="200"><{$key}></td>
+				<td class="<{cycle values="even,odd"}>"><{$count}></td>
+			</tr>
+		<{/foreach}>
+	</table>
+	<br/><br/>
+	<table class="outer" cellspacing="1" width="30%">
+		<tr>
+			<th colspan="2" class="bg3" width="200"><{$smarty.const._AM_SCAREER_BY_SOURCE}></th>
+		</tr>
+		<{foreach from=$bySource key=key item=count }>
+			<tr>
+				<td class="head" width="200"><{$key}></td>
+				<td class="<{cycle values="even,odd"}>"><{$count}></td>
+			</tr>
+		<{/foreach}>
+	</table>
+<{/if}>

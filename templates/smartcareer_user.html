@@ -1,0 +1,91 @@
+<div id="smartcareer_posting_header">
+	<{includeq file='db:smartcareer_header.html'}>
+</div>
+<!-- Start Form Validation JavaScript //-->
+
+<script type='text/javascript'>
+<!--//
+function xoopsFormValidate_adduser() {
+	myform = window.document.adduser;
+	if ( myform.email.value == "" ) { window.alert("<{$smarty.const._MD_SMARTCAREER_EMAIL_ERROR}> "); myform.email.focus(); return false; }
+	if ( myform.lastname.value == "" ) { window.alert("<{$smarty.const._MD_SMARTCAREER_LNAME_ERROR}> "); myform.lastname.focus(); return false; }
+	if ( myform.firstname.value == "" ) { window.alert("<{$smarty.const._MD_SMARTCAREER_FNAME_ERROR}> "); myform.firstname.focus(); return false; }
+	if ( myform.address_no.value == "" ) { window.alert("<{$smarty.const._MD_SMARTCAREER_ADD_NO_ERROR}> "); myform.address_no.focus(); return false; }
+	if ( myform.address_street.value == "" ) { window.alert("<{$smarty.const._MD_SMARTCAREER_STREET_ERROR}> "); myform.address_street.focus(); return false; }
+	if ( myform.address_city.value == "" ) { window.alert("<{$smarty.const._MD_SMARTCAREER_CITY_ERROR}> "); myform.address_city.focus(); return false; }
+	if ( myform.address_prov.value == "" ) { window.alert("<{$smarty.const._MD_SMARTCAREER_PROV_ERROR}> "); myform.address_prov.focus(); return false; }
+	if ( myform.address_postalcode.value == "" ) { window.alert("<{$smarty.const._MD_SMARTCAREER_PCODE_ERROR}> "); myform.address_postalcode.focus(); return false; }
+	if ( myform.phone_home.value == "" && myform.phone_cell.value == "" && myform.phone_other.value == "" ) { window.alert("<{$smarty.const._MD_SMARTCAREER_PHONE_ERROR}> "); myform.phone_home.focus(); return false; }
+	if ( myform.resume.value == "" && myform.uid.value == 0) { window.alert("<{$smarty.const._MD_SMARTCAREER_RESUME_ERROR}> "); myform.resume.focus(); return false; }
+	var myOption = -1;
+	for (i= myform.french_spoken.length-1; i > -1; i--) {if (myform.french_spoken[i].checked) {myOption = i; i = -1;}}
+	if (myOption == -1) {window.alert("<{$smarty.const._MD_SMARTCAREER_LANG_ERROR}> ");  return false;}
+	var myOption = -1;
+	for (i= myform.french_written.length-1; i > -1; i--) {if (myform.french_written[i].checked) {myOption = i; i = -1;}}
+	if (myOption == -1) {window.alert("<{$smarty.const._MD_SMARTCAREER_LANG_ERROR}> ");  return false;}
+	var myOption = -1;
+	for (i= myform.english_spoken.length-1; i > -1; i--) {if (myform.english_spoken[i].checked) {myOption = i; i = -1;}}
+	if (myOption == -1) {window.alert("<{$smarty.const._MD_SMARTCAREER_LANG_ERROR}> ");  return false;}
+	var myOption = -1;
+	for (i= myform.english_written.length-1; i > -1; i--) {if (myform.english_written[i].checked) {myOption = i; i = -1;}}
+	if (myOption == -1) {window.alert("<{$smarty.const._MD_SMARTCAREER_LANG_ERROR}> ");  return false;}
+return true;
+}
+//--></script>
+<!-- End Form Vaidation JavaScript //-->
+
+
+<form name="<{$adduser.name}>" action="<{$adduser.action}>" method="<{$adduser.method}>" <{$adduser.extra}>>
+<div id="smartcareer_user_form">
+    <{foreach item=element from=$adduser.elements}>
+    
+    <{if $element.section}>
+	    <div id="<{$element.name}>" <{if $element.hide}> style="display: none;" <{/if}>>
+	 <{elseif $element.section_close}>
+		</div>
+	<{/if}>
+	
+	    <div class="smartcareer_form_user_row">
+	      <{if $element.section}>
+	     	<div class="smartcareer_user_form_section" id="<{$element.name}>_title">
+	      		<{$element.body}>
+	      	</div>
+        <{elseif $element.hidden != true && $element.name != notif_area && $element.name != notif_dept}>
+			<div class="smartcareer_user_form_left">
+		        <div class="smartcareer_user_form_caption"><{$element.caption}>
+		       <{if  $element.name == email || $element.name == lastname || $element.name == firstname || $element.name == address_no 
+		       || $element.name == address_street || $element.name == address_city || $element.name == address_prov 
+		       || $element.name == address_postalcode || $element.name == resume 	|| $element.name == french_spoken 
+		       || $element.name == french_written || $element.name == english_spoken || $element.name == english_written}>
+				 *
+				<{/if}>
+		        </div>
+		        <{if $element.description}>
+		        	<div class="smartcareer_user_form_description"><{$element.description}></div>
+		        <{/if}>
+			</div>
+			<div class="smartcareer_user_form_right"><{$element.body}></div>
+		 <{elseif $element.name == notif_dept}>
+			<table><tr><td>
+			<b><{$element.caption}></b><br/><br/>
+			<{$element.body}>
+			</td>
+			
+		<{elseif $element.name == notif_area}>
+			<td>
+			<b><{$element.caption}></b><br/><br/>
+			<{$element.body}>
+			</td></tr></table>
+	    <{else}>
+	  		<{$element.body}>
+      	<{/if}>
+	    </div>
+    <{/foreach}>
+	<br /><br />
+	
+</div>
+</form>
+<div style="clear: both;"></div>
+
+<{includeq file='db:smartcareer_footer.html'}>
+<{includeq file='db:system_notification_select.html'}>

@@ -1,3 +1,5 @@
 <{if $isAdmin == 1}>
 	<div class="smartcareer_adminlinks"><{$smartcareer_adminpage}></div>
+<{elseif $xoops_isuser}>
+	<div class="smartcareer_adminlinks"><a href='<{$xoops_url}>/user.php?op=logout'><{$smarty.const._MD_SMARTCAREER_LOGOUT}></a></div>
 <{/if}>

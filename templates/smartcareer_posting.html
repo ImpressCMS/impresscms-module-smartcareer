@@ -1,0 +1,88 @@
+<div id="smartcareer_posting_header">
+	<{includeq file='db:smartcareer_header.html'}>
+	<h1><{$smarty.const._MD_SMARTCAREER_POSTING_LISTING}></h1>
+</div>
+
+<div id="smartcareer_listing_container">
+	<{if $smartcareer_postings}>
+		<div><{$smartcareer_postings}></div>
+	<{/if}>
+</div>
+
+<{if $smartcareer_posting}>
+	<div id="smartcareer_divider">&nbsp;</div>
+	<div class="smartcareer_grey_container">
+		<div id="smartcareer_posting_title"><{$smarty.const._MD_SMARTCAREER_POSTING_DETAIL}><b><{$smartcareer_posting.title}></b></div>
+		<p id="smartcareer_posting_details"><{$smartcareer_posting.details}></p>
+		
+		<{if $smartcareer_posting_requirements}>
+			<div id="smartcareer_posting_requirements">
+				<h2><{$smarty.const._MD_SMARTCAREER_POSTING_REQUIREMENTS}></h2>
+				<ul>
+				<{foreach from=$smartcareer_posting_requirements item=requirement}>
+					<li><{$requirement}></li>
+				<{/foreach}>
+				</ul>
+			</div>
+		<{/if}>
+	</div>
+	<div id="smartcareer_divider"></div>
+	<div class="smartcareer_grey_container">
+		<{if $xoops_isuser}>
+		  	<div id="smartcareer_posting_apply_left"></div>
+		  	<div id="smartcareer_posting_apply">
+		  	<{if !$applied}>
+		  		<a href="apply.php?postingid=<{$smartcareer_posting.postingid}>"><{$smarty.const._MD_SMARTCAREER_APPLY}></a>
+		  	<{else}>
+		  		<{$smarty.const._MD_SMARTCAREER_APPLIED}>
+		  	<{/if}>
+		  	</div>
+		  	<div id="smartcareer_posting_apply_right"></div>
+		  	<div id="smartcareer_posting_send_to_friend_left"></div>
+		  	<div id="smartcareer_posting_send_to_friend">
+		  		<a href="javascript:openWithSelfMain('<{$xoops_url}>/modules/smartobject/sendlink.php?link=<{$xoops_url}>/modules/smartcareer/posting.php?postingid=<{$smartcareer_posting.postingid}>&amp;mid=<{$mid}>', 'sendmessage', 674, 500);"><{$smarty.const._MD_SMARTCAREER_POSTING_SEND_TO_FRIEND}></a><img style="vertical-align: middle" src="<{$smartcareer_url}>images/send_to_friend.gif" alt="">
+		  	<span id="smartobject_mail_button"><a href="">
+		  	</div>
+		  	<div id="smartcareer_posting_send_to_friend_right"></div>
+		  	<div style="clear: both"></div>
+
+		<{else}>
+			<div id="smartcareer_posting_login_first">
+				<p><{$smarty.const._MD_SMARTCAREER_APPLY_LOGIN_FIRST}></p>
+		  		<form action="<{$xoops_url}>/user.php" method="post">
+		  		<table width="100%">
+		  			<tr>
+		  				<td><{$smarty.const._USERNAME}></td>
+		  				<td><input type="text" name="uname" size="15" maxlength="32" value="<{$usercookie}>" /></td>	  				
+		  			</tr>
+		  			<tr>
+		  				<td><{$smarty.const._PASSWORD}></td>
+		  				<td>
+		  					<input type="password" name="pass" size="15" maxlength="32" />&nbsp; <input class="smartcareer_login_button" src="<{$xoops_url}>/images/submit_arrow.gif" onclick ="this.form.submit()" type="image" />
+		  				</td>	  				
+		  			</tr>	  			
+		  		</table>
+				<div id="smartcareer_create_account"><{$smarty.const._MD_SMARTCAREER_CREATE_ACCOUNT}> <a href="user.php"><img style="vertical-align: middle;" src="<{$xoops_url}>/images/submit_arrow.gif" alt="" /></a></div>
+			    <input type="hidden" name="op" value="login" />
+				    <input type="hidden" name="xoops_redirect" value="/modules/smartcareer/apply.php?postingid=<{$smartcareer_posting.postingid}>" /><br />
+		  		</form>
+		  		
+		  	</div>
+		  	<div id="smartcareer_posting_send_to_friend_left"></div>
+		  	<div id="smartcareer_posting_send_to_friend">
+		  		<a href="javascript:openWithSelfMain('<{$xoops_url}>/modules/smartobject/sendlink.php?link=<{$xoops_url}>/modules/smartcareer/posting.php?postingid=<{$smartcareer_posting.postingid}>&amp;mid=<{$mid}>', 'sendmessage', 674, 500);"><{$smarty.const._MD_SMARTCAREER_POSTING_SEND_TO_FRIEND}></a><img style="vertical-align: middle" src="<{$smartcareer_url}>images/send_to_friend.gif" alt="">
+		  	
+		  	</div>
+		  	<div id="smartcareer_posting_send_to_friend_right"></div>
+		  	<div style="clear: both"></div>
+
+			
+		<{/if}>
+		<{if $isAdmin}>
+			<{$smartcareer_posting.editItemLink}>
+		<{/if}>
+	</div>	
+<{/if}>
+
+<{includeq file='db:smartcareer_footer.html'}>
+<{includeq file='db:system_notification_select.html'}>

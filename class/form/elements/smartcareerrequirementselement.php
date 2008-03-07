@@ -1,6 +1,6 @@
 <?php
 /**
- * Contains the controls to set answers
+ * Contains the controls to set requirements
  *
  * @license GNU
  * @author marcan <marcan@smartfactory.ca>
@@ -14,40 +14,82 @@ if (!defined('XOOPS_ROOT_PATH')) {
 class SmartcareerRequirementsElement extends XoopsFormElementTray {
 
 	function SmartcareerRequirementsElement($object, $key){
-	    $lettersArray = smartquiz_lettersArray();
+	    $smartcareer_requirement_handler = xoops_getModuleHandler('requirement', 'smartcareer');
 
 	    $var = $object->vars[$key];
      	$this->XoopsFormElementTray($var['form_caption'], '<div style="line-height: 3px;">&nbsp;</div>', $key);
 
-		$answersArray = $object->getAnswers(true);
+		$requirementsArray = $object->getRequirements();
 
-     	$answersCount = 5;
+     	$requirementsCount = isset($_POST['requirements_count']) ? $_POST['requirements_count'] : 10;
 
-     	$answersTray = new XoopsFormElementTray('', '<div style="line-height: 3px;">&nbsp;</div>');
+     	if ($object->isNew()) {
+			for($i=0;$i<$requirementsCount; $i++) {
+				$singleRequirementTray = new XoopsFormElementTray('', '', $key . '_' . $i);
 
-		if ($object->isNew()) {
-			for($i=0;$i<$answersCount; $i++) {
-				$radio_option = '<input name="correct_answer" value="' . $i .'" type="radio">';
-				$text_control = new XoopsFormText('<div style="vertical-align: middle; width: 40px; float: left;">' . $radio_option . $lettersArray[$i] . ')</div>', 'smartquiz_answer[]', 50, 10000);
-				$answersTray->addElement($text_control);
+				$type_select = new XoopsFormSelect('', 'requirement_type_' . $i);
+				$type_select->addOptionArray($smartcareer_requirement_handler->getTypeArray());
+				$text_control = new XoopsFormText('', 'requirements[]', 50, 10000);
+				$mandatoryYN = new XoopsFormRadioYN('', 'requirement_mandatory_' . $i);
+				$singleRequirementTray->addElement($text_control);
+				$singleRequirementTray->addElement($type_select);
+				$singleRequirementTray->addElement(new XoopsFormLabel('', _AM_SCAREER_MANDATORY));
+				$singleRequirementTray->addElement($mandatoryYN);
+
+				$this->addElement($singleRequirementTray);
+
 				unset($text_control);
+				unset($type_select);
+				unset($mandatoryYN);
+				unset($singleRequirementTray);
 			}
+			$isnew_hidden = new XoopsFormHidden('posting_isnew', true);
+			$this->addElement($isnew_hidden);
 		} else {
-			$i = 0;
-			foreach($answersArray as $answerid=>$answerObj) {
-				$answerid = $answerObj->id();
-				$radio_option = '<input name="correct_answer" value="' . $answerid .'" ';
-				if ($answerid == $object->getVar('correct_answerid')) {
-					$radio_option .= 'checked="chedked" ';
-				}
-				$radio_option .= 'type="radio">';
-				$text_control = new XoopsFormText('<div style="vertical-align: middle; width: 40px; float: left;">' . $radio_option . $lettersArray[$i] . ')</div>', 'smartquiz_answer[' . $answerid . ']', 50, 10000, $answerObj->getVar('answer', 'e'));
-				$answersTray->addElement($text_control);
-				unset($text_control);
-				$i++;
+			$requirementsObj = $object->getRequirements();
+			if ($requirementsCount < count($requirementsObj)) {
+				$requirementsCount =  count($requirementsObj);
 			}
+			$new_requirementid = 0;
+			for($i=0;$i<$requirementsCount; $i++) {
+				if (isset($requirementsObj[$i])) {
+					$requirementid = $requirementsObj[$i]->id();
+					$requirementType = $requirementsObj[$i]->getVar('type', 'e');
+					$requirementValue = $requirementsObj[$i]->getVar('name', 'e');
+					$mandatoryValue = $requirementsObj[$i]->getVar('mandatory', 'e');
+				} else {
+					$new_requirementid++;
+					$requirementid = 'new_' . $new_requirementid;
+					$requirementType = '';
+					$requirementValue = '';
+					$mandatoryValue = 0;
+				}
+				$singleRequirementTray = new XoopsFormElementTray('', '', $key . '_' . $requirementid);
+
+				$type_select = new XoopsFormSelect('', 'requirement_type_' . $requirementid, $requirementType);
+				$type_select->addOptionArray($smartcareer_requirement_handler->getTypeArray());
+				$text_control = new XoopsFormText('', 'requirements[' . $requirementid . ']', 50, 10000, $requirementValue);
+				$mandatoryYN = new XoopsFormRadioYN('', 'requirement_mandatory_' . $requirementid, $mandatoryValue);
+				$singleRequirementTray->addElement($text_control);
+				$singleRequirementTray->addElement($type_select);
+				$singleRequirementTray->addElement(new XoopsFormLabel('', _AM_SCAREER_MANDATORY));
+				$singleRequirementTray->addElement($mandatoryYN);
+				if($requirementValue != ''){
+					$del_check = new XoopsFormCheckBox('', 'requirement_delete_' . $requirementid);
+					$del_check->addOption('delete',_AM_SCAREER_DELETE);
+					$singleRequirementTray->addElement($del_check );
+				}
+				$this->addElement($singleRequirementTray);
+
+				unset($text_control);
+				unset($type_select);
+				unset($mandatoryYN);
+				unset($del_check);
+				unset($singleRequirementTray);
+			}
+			$isnew_hidden = new XoopsFormHidden('new_requirements', $new_requirementid);
+			$this->addElement($isnew_hidden);
 		}
-		$this->addElement($answersTray);
 	}
 }
 ?>

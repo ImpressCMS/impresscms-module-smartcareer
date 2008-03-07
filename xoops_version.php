@@ -59,6 +59,9 @@ $modversion['onUpdate'] = "include/onupdate.inc.php";
  */
 $modversion['object_items'][1] = 'posting';
 $modversion['object_items'][2] = 'application';
+$modversion['object_items'][3] = 'requirement';
+$modversion['object_items'][4] = 'application_requirement';
+$modversion['object_items'][5] = 'user';
 
 // Search
 $modversion['hasSearch'] = 0;
@@ -100,6 +103,38 @@ $i++;
 $modversion['templates'][$i]['file'] = 'smartcareer_index.html';
 $modversion['templates'][$i]['description'] = 'Display Index page';
 
+$i++;
+$modversion['templates'][$i]['file'] = 'smartcareer_index_english.html';
+$modversion['templates'][$i]['description'] = '';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'smartcareer_index_french.html';
+$modversion['templates'][$i]['description'] = '';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'smartcareer_posting.html';
+$modversion['templates'][$i]['description'] = '';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'smartcareer_apply.html';
+$modversion['templates'][$i]['description'] = '';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'smartcareer_user.html';
+$modversion['templates'][$i]['description'] = '';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'smartcareer_posting_table.html';
+$modversion['templates'][$i]['description'] = '';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'smartcareer_stats.html';
+$modversion['templates'][$i]['description'] = '';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'smartcareer_search.html';
+$modversion['templates'][$i]['description'] = '';
+
 // Config Settings (only for modules that need config settings generated automatically)
 $i = 0;
 
@@ -110,27 +145,15 @@ $modversion['config'][$i]['title'] = '_CO_SOBJECT_EDITOR';
 $modversion['config'][$i]['description'] = '_CO_SOBJECT_EDITOR_DSC';
 $modversion['config'][$i]['formtype'] = 'select';
 $modversion['config'][$i]['valuetype'] = 'text';
-if(file_exists(XOOPS_ROOT_PATH.'/modules/smartobject/include/function.php')){
-	include_once(XOOPS_ROOT_PATH.'/modules/smartobject/include/function.php');
-	$modversion['config'][$i]['options'] = smart_getEditors();
-}
+$modversion['config'][$i]['options'] = smart_getEditors();
 $modversion['config'][$i]['default'] = 'dhtmltextarea';
 $i++;
 
-$modversion['config'][$i]['name'] = 'default_dohtml';
-$modversion['config'][$i]['title'] = '_MI_SCAREER_DEFDOHTML';
-$modversion['config'][$i]['description'] = '_MI_SCAREER_DEFDOHTMLDSC';
-$modversion['config'][$i]['formtype'] = 'yesno';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = 1;
-$i++;
-
-$modversion['config'][$i]['name'] = 'default_dobr';
-$modversion['config'][$i]['title'] = '_MI_SCAREER_DEFDOBR';
-$modversion['config'][$i]['description'] = '_MI_SCAREER_DEFDOBRDSC';
-$modversion['config'][$i]['formtype'] = 'yesno';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = 1;
+$modversion['config'][$i]['name'] = 'index_text';
+$modversion['config'][$i]['title'] = '_MI_SCAREER_INDTXT';
+$modversion['config'][$i]['description'] = '_MI_SCAREER_INDTXTDSC';
+$modversion['config'][$i]['formtype'] = 'textarea';
+$modversion['config'][$i]['valuetype'] = 'text';
 $i++;
 
 /*
