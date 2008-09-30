@@ -1,3 +1,5 @@
 <b><u>=> Version 1.0 Final</u></b>
 
 - First private release of the module.
+
+- changed: reference to class/xoopsmodule.php in admin_header.php to kernel/module.php
